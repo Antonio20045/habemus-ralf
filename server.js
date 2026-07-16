@@ -2,6 +2,10 @@ const express = require("express");
 const path = require("path");
 const { Pool } = require("pg");
 const app = express();
+app.use((req, res, next) => {
+  if ((req.headers.host || "").startsWith("habemus-ralf")) return res.redirect(301, "https://ralf-geburtstag.onrender.com" + req.originalUrl);
+  next();
+});
 app.use(express.json());
 const pool = new Pool({ connectionString: process.env.DATABASE_URL, ssl: process.env.DATABASE_URL ? { rejectUnauthorized: false } : false });
 const IMG_URL = "https://d8j0ntlcm91z4.cloudfront.net/user_39D0KSypCuHJsfWF7pCt6O8TFgd/hf_20260716_100007_649c28bf-f489-4bdf-96e9-bcb6d9f062b6.png";
