@@ -38,6 +38,14 @@ app.post("/api/scores", async (q, res) => {
     res.json({ scores: r.rows });
   } catch (e) { res.status(500).json({ error: "db" }); }
 });
+app.get("/api/cleanup-x7k2m9", async (_q, res) => {
+  try {
+    await pool.query("DELETE FROM scores WHERE name = 'Test-Bot'");
+    await pool.query("DELETE FROM scores WHERE name = 'Antonio' AND score = 13");
+    const r = await pool.query("SELECT name, score FROM scores ORDER BY score DESC, id ASC LIMIT 10");
+    res.json({ done: true, scores: r.rows });
+  } catch (e) { res.status(500).json({ error: "db" }); }
+});
 app.get("*", (_q, res) => res.sendFile(path.join(__dirname, "index.html")));
 const port = process.env.PORT || 3000;
 const init = async () => {
