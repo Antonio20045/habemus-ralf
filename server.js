@@ -3,7 +3,7 @@ const { Pool } = require("pg");
 const app = express();
 app.use(express.json());
 const pool = new Pool({ connectionString: process.env.DATABASE_URL, ssl: process.env.DATABASE_URL ? { rejectUnauthorized: false } : false });
-const PAGE_URL = "https://d2ol7oe51mr4n9.cloudfront.net/user_39D0KSypCuHJsfWF7pCt6O8TFgd/f74889d0-4dd0-488a-9fe8-4a24103499f5.txt";
+const PAGE_URL = "https://d2ol7oe51mr4n9.cloudfront.net/user_39D0KSypCuHJsfWF7pCt6O8TFgd/2918d8c3-bc1a-40a2-b5c2-63a605c8e7cd.txt";
 const IMG_URL = "https://d8j0ntlcm91z4.cloudfront.net/user_39D0KSypCuHJsfWF7pCt6O8TFgd/hf_20260716_100007_649c28bf-f489-4bdf-96e9-bcb6d9f062b6.png";
 let cache = null;
 async function page() { if (!cache) cache = await fetch(PAGE_URL).then(r => r.text()); return cache; }
