@@ -395,7 +395,7 @@ load();
   var btn=document.createElement('button');
   btn.className='musicbtn';btn.type='button';btn.setAttribute('aria-label','Geburtstagsmusik an/aus');btn.title='Geburtstagsmusik an/aus';btn.textContent='🎵';
   document.body.appendChild(btn);
-  var ac=null,master=null,songGain=null,on=true,unlocked=false,playing=false,loopTimer=null;
+  var ac=null,master=null,songGain=null,on=true,unlocked=false,playing=false,loopTimer=null,loopsLeft=0;
   btn.classList.add('on');
   var BEAT=0.5;
   /* Happy Birthday, [Frequenz, Dauer in Schlägen] */
@@ -437,6 +437,12 @@ load();
   }
   function playSong(){
     if(!on||!ac||ac.state!=='running'){playing=false;return;}
+    if(loopsLeft<=0){
+      playing=false;on=false;loopTimer=null;
+      btn.classList.remove('on');btn.textContent='🔇';
+      return;
+    }
+    loopsLeft--;
     if(!songGain){songGain=ac.createGain();songGain.gain.value=1;songGain.connect(master);}
     var t=ac.currentTime+0.08;
     for(var i=0;i<N.length;i++){
@@ -450,6 +456,7 @@ load();
   function start(){
     if(playing)return;
     playing=true;
+    loopsLeft=3;
     if(loopTimer)clearTimeout(loopTimer);
     playSong();
   }
