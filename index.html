@@ -88,10 +88,55 @@ section{padding:60px 0}
 .gwish.is-new{animation:ringGlow 2s ease-out .35s 1}
 .newbadge{position:absolute;top:14px;right:16px;background:var(--vf-gold);color:#3a2c00;font-size:11px;font-weight:900;letter-spacing:.08em;text-transform:uppercase;padding:4px 10px;border-radius:999px;animation:badgePop .5s var(--spring) both;box-shadow:0 4px 12px rgba(245,179,1,.5)}
 .empty{text-align:center;color:var(--vf-mute);font-size:16px;font-weight:600;padding:60px 20px}
+/* Torte */
+.cakewrap{max-width:780px;margin:44px auto 0}
+.cake-stage{position:relative;text-align:center;background:#fff;border:1px solid var(--vf-neutral);border-radius:24px;padding:44px 24px 36px;box-shadow:0 18px 50px rgba(0,0,0,.08);overflow:hidden}
+.candles{display:flex;flex-wrap:wrap;justify-content:center;gap:18px 13px;max-width:620px;margin:0 auto;padding-top:16px}
+.candle{position:relative;width:10px;height:46px;border-radius:4px;background:repeating-linear-gradient(135deg,var(--vf-red) 0 6px,#fff 6px 12px);box-shadow:0 2px 4px rgba(0,0,0,.15)}
+.candle .flame{position:absolute;left:50%;top:-15px;width:11px;height:15px;background:radial-gradient(circle at 50% 75%,#fff3c4 0%,#f5b301 45%,rgba(230,0,0,.9) 100%);border-radius:50% 50% 50% 50%/62% 62% 38% 38%;transform-origin:50% 100%;animation:flick .45s ease-in-out infinite alternate;filter:drop-shadow(0 0 6px rgba(245,179,1,.8))}
+@keyframes flick{from{transform:translateX(-50%) scale(1) rotate(-5deg)}to{transform:translateX(-50%) scale(1.12) rotate(6deg)}}
+.candle.out .flame{display:none}
+.candle .smoke{display:none}
+.candle.out .smoke{display:block;position:absolute;left:50%;top:-16px;width:7px;height:7px;border-radius:50%;background:rgba(126,126,126,.55);animation:smokeUp 1.3s ease-out forwards}
+@keyframes smokeUp{to{transform:translate(-30%,-36px) scale(2.6);opacity:0}}
+.cakebase{position:relative;height:74px;max-width:640px;margin:6px auto 0;border-radius:12px 12px 20px 20px;background:linear-gradient(180deg,#fff 0 30%,var(--vf-red) 30% 78%,var(--vf-red-deep) 78%);box-shadow:0 14px 30px rgba(0,0,0,.14)}
+.cakeplate{height:12px;max-width:720px;margin:0 auto;border-radius:999px;background:linear-gradient(180deg,var(--vf-gold),var(--vf-gold-deep));box-shadow:0 8px 18px rgba(0,0,0,.15)}
+.cake-tools{display:flex;gap:12px;justify-content:center;flex-wrap:wrap;margin-top:26px}
+.btn2{background:#fff;color:var(--vf-red);border:2px solid var(--vf-red);border-radius:999px;font-family:var(--font);font-size:15px;font-weight:700;padding:12px 26px;cursor:pointer;transition:background .25s,color .25s,transform .15s}
+.btn2:hover{background:var(--vf-red);color:#fff}.btn2:active{transform:scale(.96)}.btn2:disabled{opacity:.6;cursor:default}
+.cake-status{margin-top:14px;font-size:14px;font-weight:700;color:var(--vf-mute)}
+.cake-done{margin-top:10px;font-size:22px;font-weight:900;color:var(--vf-red);opacity:0;transform:scale(.8);transition:opacity .4s var(--spring),transform .4s var(--spring)}
+.cake-done.show{opacity:1;transform:none}
+/* Game */
+.gamewrap{max-width:900px;margin:40px auto 0;position:relative}
+#game{width:100%;display:block;background:linear-gradient(180deg,#fff 0%,#fdf3f3 70%,#f7e9e9 100%);border:1px solid var(--vf-neutral);border-radius:20px;box-shadow:0 18px 50px rgba(0,0,0,.10);touch-action:manipulation;cursor:pointer}
+.gover{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:14px;background:rgba(255,255,255,.9);border-radius:20px;text-align:center;padding:20px}
+.gover h3{font-size:26px;font-weight:900}
+.gover p{color:var(--vf-mute);font-weight:600;max-width:460px}
+.gover[hidden]{display:none}
+.gover input{font-family:var(--font);font-size:15px;padding:11px 14px;border:1px solid #e3e3e3;border-radius:10px;outline:none;width:min(280px,80%);text-align:center}
+.gover input:focus{border-color:var(--vf-red)}
+.hsbox{max-width:520px;margin:30px auto 0;background:#fff;border:1px solid var(--vf-neutral);border-radius:18px;padding:24px 30px}
+.hsbox h3{font-size:17px;font-weight:800;text-align:center;margin-bottom:12px}
+.hsbox ol{list-style:none;counter-reset:hs}
+.hsbox li{counter-increment:hs;display:flex;justify-content:space-between;gap:12px;padding:7px 2px;border-bottom:1px dashed var(--vf-neutral);font-size:15px;font-weight:600;align-items:baseline}
+.hsbox li::before{content:counter(hs) '.';color:var(--vf-gold-deep);font-weight:900;min-width:26px}
+.hsbox li span{flex:1;word-break:break-word}
+.hsbox li b{color:var(--vf-red);font-weight:900}
+/* Segen */
+.segenwrap{max-width:720px;margin:44px auto 0;text-align:center}
+.segenbox{position:relative;background:var(--vf-neutral);border-left:4px solid var(--vf-gold);border-radius:0 14px 14px 0;padding:36px 40px;min-height:130px;display:flex;align-items:center;justify-content:center}
+.segenbox p{font-size:20px;line-height:1.55;font-weight:600;font-style:italic}
+.segen-cross{font-size:26px;color:var(--vf-gold-deep);margin-bottom:8px}
+.segenbox.pop>div{animation:segenPop .5s var(--spring)}
+@keyframes segenPop{0%{opacity:0;transform:scale(.85)}100%{opacity:1;transform:scale(1)}}
 @media(max-width:900px){
 .cards{grid-template-columns:1fr}
 .gwish{padding:28px 24px 24px;margin-bottom:40px}
 .gline,.gwish .dot{display:none}
+.gover{position:static;margin-top:14px;background:#fff;border:1px solid var(--vf-neutral);box-shadow:0 10px 30px rgba(0,0,0,.08)}
+.gover h3{font-size:21px}
+.candles{gap:18px 10px}
 }
 @media(prefers-reduced-motion:reduce){
 .seal,.seal .burst,.statnum.inf,.btn::after,.blob{animation:none!important}
@@ -167,6 +212,43 @@ section{padding:60px 0}
 </svg>
 <h3>Wird 50</h3><p>Halbes Jahrhundert KI-Papst. Torte an, Kerzen an, Eierlikör auf — heute wird gefeiert.</p>
 </div>
+</div>
+</div></section>
+<div class="divider"></div>
+<section><div class="wrap">
+<div class="h2 rv">Puste die <span class="accent">50 Kerzen</span> aus</div>
+<div class="cakewrap rv">
+<div class="cake-stage">
+<div class="candles" id="candles"></div>
+<div class="cakebase"></div>
+<div class="cakeplate"></div>
+<div class="cake-tools">
+<button class="btn" id="blowbtn" type="button">💨 Pusten</button>
+<button class="btn2" id="micbtn" type="button">🎤 Mit Mikrofon pusten</button>
+<button class="btn2" id="relight" type="button">Neu anzünden</button>
+</div>
+<div class="cake-status" id="cake-status">50 Kerzen brennen</div>
+<div class="cake-done" id="cake-done">Alle aus! Habemus 50! 🎉</div>
+</div>
+</div>
+</div></section>
+<div class="divider"></div>
+<section><div class="wrap">
+<div class="h2 rv">Der <span class="accent">Eierlikör-Run</span></div>
+<p class="sub rv">Ralf bergab auf dem Mountainbike: Eierlikör einsammeln, Wohnwagen überspringen. Leertaste, ↑ oder Tippen zum Springen — Doppelsprung geht auch.</p>
+<div class="gamewrap rv">
+<canvas id="game" width="880" height="320"></canvas>
+<div class="gover" id="gstart"><h3>Der Eierlikör-Run</h3><p>Sammle Eierlikör 🍾 und spring über die Wohnwagen 🚐 — es wird immer schneller. Sich päpstlich hinzulegen beendet den Lauf.</p><button class="btn" id="gplay" type="button">Los geht's</button></div>
+<div class="gover" id="gover" hidden><h3 id="gscore">0 Punkte</h3><p>Sehr päpstlich hingelegt — steht aber jedes Mal wieder auf!</p><input id="gname" type="text" maxlength="40" placeholder="Dein Name für die Bestenliste"><div style="display:flex;gap:10px;flex-wrap:wrap;justify-content:center"><button class="btn" id="gsave" type="button">Eintragen</button><button class="btn2" id="gagain" type="button">Nochmal</button></div></div>
+</div>
+<div class="hsbox rv"><h3>🏆 Bestenliste der Abteilung</h3><ol id="hs"><li><span>Noch keine Einträge — leg vor!</span></li></ol></div>
+</div></section>
+<div class="divider"></div>
+<section><div class="wrap">
+<div class="h2 rv">Der päpstliche <span class="accent">Segen</span></div>
+<div class="segenwrap rv">
+<div class="segenbox" id="segenbox"><div><div class="segen-cross">✠</div><p id="segentext">Tritt vor und empfange den Segen des KI-Papstes.</p></div></div>
+<div class="cake-tools"><button class="btn" id="segenbtn" type="button">Segen empfangen</button></div>
 </div>
 </div></section>
 <div class="divider"></div>
@@ -314,6 +396,169 @@ document.getElementById('f').addEventListener('submit',async function(ev){
   finally{b.disabled=false;b.textContent='Glückwunsch abschicken';}
 });
 load();
+
+/* ---------- Fanfare (WebAudio, keine Assets) ---------- */
+function fanfare(){
+  try{
+    var ac=new (window.AudioContext||window.webkitAudioContext)();
+    [523,659,784,1047,784,1047,1319].forEach(function(f,i){
+      var o=ac.createOscillator(),g=ac.createGain();
+      o.type='triangle';o.frequency.value=f;o.connect(g);g.connect(ac.destination);
+      var t=ac.currentTime+i*0.13;
+      g.gain.setValueAtTime(0.0001,t);g.gain.exponentialRampToValueAtTime(0.2,t+0.02);g.gain.exponentialRampToValueAtTime(0.0001,t+0.32);
+      o.start(t);o.stop(t+0.38);
+    });
+  }catch(e){}
+}
+
+/* ---------- Torte: 50 Kerzen auspusten ---------- */
+(function(){
+  var wrap=document.getElementById('candles'); if(!wrap)return;
+  var N=50;
+  for(var i=0;i<N;i++){var c=document.createElement('div');c.className='candle';c.innerHTML='<span class="flame"></span><span class="smoke"></span>';wrap.appendChild(c);}
+  var cs=[].slice.call(wrap.children),stat=document.getElementById('cake-status'),doneEl=document.getElementById('cake-done'),micbtn=document.getElementById('micbtn'),micStream=null;
+  function lit(){return cs.filter(function(c){return !c.classList.contains('out')})}
+  function blowSome(n){
+    var l=lit(); if(!l.length)return;
+    for(var i=0;i<Math.min(n,l.length);i++){var k=l.splice(Math.floor(Math.random()*l.length),1)[0];k.classList.add('out');}
+    var rest=lit().length;
+    stat.textContent=rest>0?rest+(rest===1?' Kerze brennt noch':' Kerzen brennen noch'):'';
+    if(rest===0){doneEl.classList.add('show');confetti();fanfare();if(micStream){micStream.getTracks().forEach(function(t){t.stop()});micStream=null;micbtn.disabled=false;micbtn.textContent='🎤 Mit Mikrofon pusten';}}
+  }
+  document.getElementById('blowbtn').addEventListener('click',function(){blowSome(6+Math.floor(Math.random()*5))});
+  document.getElementById('relight').addEventListener('click',function(){cs.forEach(function(c){c.classList.remove('out')});stat.textContent=N+' Kerzen brennen';doneEl.classList.remove('show')});
+  micbtn.addEventListener('click',async function(){
+    if(micStream)return;
+    try{
+      micStream=await navigator.mediaDevices.getUserMedia({audio:true});
+      var ac=new (window.AudioContext||window.webkitAudioContext)();
+      var src=ac.createMediaStreamSource(micStream),an=ac.createAnalyser();an.fftSize=512;src.connect(an);
+      var buf=new Uint8Array(an.frequencyBinCount);
+      micbtn.disabled=true;micbtn.textContent='🎤 Jetzt pusten!';
+      (function loop(){
+        if(!micStream)return;
+        an.getByteFrequencyData(buf);
+        var v=0;for(var i=0;i<buf.length;i++)v+=buf[i];v/=buf.length;
+        if(v>48)blowSome(3);
+        if(lit().length>0)requestAnimationFrame(loop);
+      })();
+    }catch(e){micbtn.textContent='Mikro nicht verfügbar — nimm 💨 Pusten';micbtn.disabled=true;}
+  });
+})();
+
+/* ---------- Eierlikör-Run ---------- */
+(function(){
+  var cv=document.getElementById('game'); if(!cv)return;
+  var cx=cv.getContext('2d'),W=880,H=320,GROUND=262;
+  var run=false,ralf,obs,items,dist,speed,score,spawnT,itemT;
+  function reset(){ralf={x:120,y:GROUND,vy:0,jumps:0};obs=[];items=[];dist=0;speed=5;score=0;spawnT=300;itemT=160;}
+  function total(){return Math.floor(score+dist/80)}
+  function jump(){if(!run)return;if(ralf.jumps<2){ralf.vy=-13.5;ralf.jumps++;}}
+  addEventListener('keydown',function(e){
+    if(/^(INPUT|TEXTAREA)$/.test(e.target.tagName))return;
+    if(e.code==='Space'||e.code==='ArrowUp'){if(run){e.preventDefault();jump();}}
+  });
+  cv.addEventListener('pointerdown',function(){jump()});
+  function loop(){
+    if(!run)return;
+    requestAnimationFrame(loop);
+    if(document.hidden)return;
+    step();
+  }
+  window.__gstep=function(n){for(var i=0;i<(n||1);i++){if(!run)break;step();}};
+  function step(){
+    dist+=speed;speed=Math.min(13,5+dist/2200);
+    ralf.vy+=0.7;ralf.y+=ralf.vy;
+    if(ralf.y>=GROUND){ralf.y=GROUND;ralf.vy=0;ralf.jumps=0;}
+    spawnT-=speed;if(spawnT<=0){obs.push({x:W+60});spawnT=430+Math.random()*430;}
+    itemT-=speed;if(itemT<=0){items.push({x:W+40,y:GROUND-46-Math.random()*104});itemT=250+Math.random()*300;}
+    for(var i=0;i<obs.length;i++)obs[i].x-=speed;
+    for(var j=0;j<items.length;j++)items[j].x-=speed;
+    obs=obs.filter(function(o){return o.x>-80});
+    items=items.filter(function(it){
+      if(it.got)return false;
+      if(Math.abs(ralf.x-it.x)<36&&Math.abs((ralf.y-26)-it.y)<38){score+=10;return false;}
+      return it.x>-60;
+    });
+    for(var k=0;k<obs.length;k++){
+      if(Math.abs(ralf.x-obs[k].x)<40&&ralf.y>GROUND-48){gameOver();return;}
+    }
+    draw();
+  }
+  function draw(){
+    cx.clearRect(0,0,W,H);
+    cx.fillStyle='rgba(37,40,43,.06)';
+    cx.beginPath();cx.moveTo(0,240);cx.lineTo(150,110);cx.lineTo(310,240);cx.closePath();cx.fill();
+    cx.beginPath();cx.moveTo(250,240);cx.lineTo(440,80);cx.lineTo(650,240);cx.closePath();cx.fill();
+    cx.beginPath();cx.moveTo(570,240);cx.lineTo(740,125);cx.lineTo(900,240);cx.closePath();cx.fill();
+    cx.strokeStyle='#e60000';cx.lineWidth=4;cx.beginPath();cx.moveTo(0,GROUND+8);cx.lineTo(W,GROUND+8);cx.stroke();
+    cx.strokeStyle='rgba(230,0,0,.25)';cx.lineWidth=2;
+    for(var g=-(dist%44);g<W;g+=44){cx.beginPath();cx.moveTo(g,GROUND+18);cx.lineTo(g+20,GROUND+18);cx.stroke();}
+    cx.textAlign='center';
+    cx.font='46px serif';
+    for(var i=0;i<obs.length;i++)cx.fillText('🚐',obs[i].x,GROUND+6);
+    cx.font='30px serif';
+    for(var j=0;j<items.length;j++)cx.fillText('🍾',items[j].x,items[j].y+12);
+    cx.font='48px serif';
+    cx.fillText('🚵',ralf.x,ralf.y+4);
+    cx.font='800 20px Inter,sans-serif';cx.fillStyle='#25282b';cx.textAlign='right';
+    cx.fillText(total()+' Punkte',W-24,42);
+  }
+  function gameOver(){
+    run=false;
+    document.getElementById('gscore').textContent=total()+' Punkte';
+    document.getElementById('gover').hidden=false;
+  }
+  document.getElementById('gplay').addEventListener('click',function(){document.getElementById('gstart').hidden=true;reset();run=true;loop();});
+  document.getElementById('gagain').addEventListener('click',function(){document.getElementById('gover').hidden=true;reset();run=true;loop();});
+  function renderScores(list){
+    if(!list||!list.length)return;
+    document.getElementById('hs').innerHTML=list.map(function(s){return '<li><span>'+esc(s.name)+'</span><b>'+(+s.score)+'</b></li>'}).join('');
+  }
+  document.getElementById('gsave').addEventListener('click',async function(){
+    var n=document.getElementById('gname').value.trim();if(!n)return;
+    var b=document.getElementById('gsave');b.disabled=true;
+    try{
+      var r=await fetch('/api/scores',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({name:n,score:total()})});
+      var d=await r.json();renderScores(d.scores);confetti();
+    }catch(e){}
+    b.disabled=false;
+    document.getElementById('gover').hidden=true;
+    document.getElementById('gstart').hidden=false;
+  });
+  (async function(){try{var r=await fetch('/api/scores');if(r.ok){var d=await r.json();renderScores(d.scores);}}catch(e){}})();
+  reset();draw();
+})();
+
+/* ---------- Päpstlicher Segen ---------- */
+(function(){
+  var btn=document.getElementById('segenbtn'); if(!btn)return;
+  var box=document.getElementById('segenbox'),txt=document.getElementById('segentext'),last=-1;
+  var S=[
+    'Möge dein Modell nie halluzinieren und dein Glas nie leer sein.',
+    'Möge dein Kontextfenster niemals überlaufen.',
+    'Gesegnet sei dein Wohnwagen — besonders beim Rückwärtseinparken.',
+    'Möge dein Mountainbike bergab schneller sein als jede Deadline.',
+    'Der Eierlikör sei mit dir. Heute und in Ewigkeit. Amen.',
+    'Mögen deine Prompts sitzen und deine Meetings pünktlich enden.',
+    '100 Immo-Deals am Tag — und keiner davon sei dein Problem.',
+    'Möge dein WLAN stark sein und dein Akku unendlich — so wie du.',
+    'Gesegnet seien die Praktikanten, denn sie tragen den Eierlikör.',
+    'Möge dein Sturz weich sein und dein Aufstehen päpstlich.',
+    'In nomine Promptae, et Datae, et Spiritus Sancti KI.',
+    'Möge der Algorithmus dir heute besonders wohlgesonnen sein.',
+    'Scribbel mal was — und es wird gut.',
+    'Möge dein Kaffee stark sein und dein Postfach leer.',
+    'Ein halbes Jahrhundert — und noch kein einziges Update nötig.',
+    'Möge deine Torte größer sein als dein Backlog.'
+  ];
+  btn.addEventListener('click',function(){
+    var i;do{i=Math.floor(Math.random()*S.length)}while(i===last&&S.length>1);last=i;
+    txt.textContent='„'+S[i]+'"';
+    box.classList.remove('pop');void box.offsetWidth;box.classList.add('pop');
+    var r=btn.getBoundingClientRect();confetti(r.left+r.width/2,r.top);
+  });
+})();
 </script>
 </body>
 </html>

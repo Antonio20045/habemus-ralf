@@ -20,6 +20,25 @@ app.post("/api/entries", async (q, res) => {
     res.json({ entries: r.rows });
   } catch (e) { res.status(500).json({ error: "db" }); }
 });
+app.get("/api/scores", async (_q, res) => {
+  try { const r = await pool.query("SELECT name, score FROM scores ORDER BY score DESC, id ASC LIMIT 10"); res.json({ scores: r.rows }); }
+  catch (e) { res.status(500).json({ error: "db" }); }
+});
+app.post("/api/scores", async (q, res) => {
+  try {
+    const name = String(q.body.name || "").trim().slice(0, 40);
+    const score = Math.max(0, Math.min(1000000, parseInt(q.body.score, 10) || 0));
+    if (!name) return res.status(400).json({ error: "missing" });
+    await pool.query("INSERT INTO scores (name, score) VALUES ($1, $2)", [name, score]);
+    const r = await pool.query("SELECT name, score FROM scores ORDER BY score DESC, id ASC LIMIT 10");
+    res.json({ scores: r.rows });
+  } catch (e) { res.status(500).json({ error: "db" }); }
+});
 app.get("*", (_q, res) => res.sendFile(path.join(__dirname, "index.html")));
 const port = process.env.PORT || 3000;
-pool.query("CREATE TABLE IF NOT EXISTS entries (id SERIAL PRIMARY KEY, name TEXT NOT NULL, msg TEXT NOT NULL, created_at TIMESTAMPTZ DEFAULT now())").catch(() => {}).finally(() => app.listen(port, () => console.log("up " + port)));
+const init = async () => {
+  try { await pool.query("CREATE TABLE IF NOT EXISTS entries (id SERIAL PRIMARY KEY, name TEXT NOT NULL, msg TEXT NOT NULL, created_at TIMESTAMPTZ DEFAULT now())"); } catch (e) {}
+  try { await pool.query("CREATE TABLE IF NOT EXISTS scores (id SERIAL PRIMARY KEY, name TEXT NOT NULL, score INTEGER NOT NULL, created_at TIMESTAMPTZ DEFAULT now())"); } catch (e) {}
+  app.listen(port, () => console.log("up " + port));
+};
+init();
