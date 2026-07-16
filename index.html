@@ -410,7 +410,7 @@ load();
   var btn=document.createElement('button');
   btn.className='musicbtn';btn.type='button';btn.setAttribute('aria-label','Geburtstagsmusik an/aus');btn.title='Geburtstagsmusik an/aus';btn.textContent='🎵';
   document.body.appendChild(btn);
-  var ac=null,master=null,on=true,unlocked=false,playing=false,loopTimer=null;
+  var ac=null,master=null,songGain=null,on=true,unlocked=false,playing=false,loopTimer=null;
   btn.classList.add('on');
   var BEAT=0.5;
   /* Happy Birthday, [Frequenz, Dauer in Schlägen] */
@@ -420,7 +420,7 @@ load();
          [466,.75],[466,.25],[440,1],[349,1],[392,1],[349,2]];
   function tone(f,d,t){
     var o=ac.createOscillator(),g=ac.createGain(),len=d*BEAT;
-    o.type='triangle';o.frequency.value=f;o.connect(g);g.connect(master);
+    o.type='triangle';o.frequency.value=f;o.connect(g);g.connect(songGain);
     g.gain.setValueAtTime(0.0001,t);
     g.gain.exponentialRampToValueAtTime(0.11,t+0.03);
     g.gain.setValueAtTime(0.11,t+Math.max(0.03,len*0.7));
@@ -429,7 +429,7 @@ load();
   }
   function bass(f,d,t){
     var o=ac.createOscillator(),g=ac.createGain(),len=d*BEAT;
-    o.type='sine';o.frequency.value=f/2;o.connect(g);g.connect(master);
+    o.type='sine';o.frequency.value=f/2;o.connect(g);g.connect(songGain);
     g.gain.setValueAtTime(0.0001,t);
     g.gain.exponentialRampToValueAtTime(0.05,t+0.04);
     g.gain.exponentialRampToValueAtTime(0.0001,t+len);
@@ -452,6 +452,7 @@ load();
   }
   function playSong(){
     if(!on||!ac||ac.state!=='running'){playing=false;return;}
+    if(!songGain){songGain=ac.createGain();songGain.gain.value=1;songGain.connect(master);}
     var t=ac.currentTime+0.08;
     for(var i=0;i<N.length;i++){
       tone(N[i][0],N[i][1],t);
@@ -470,7 +471,7 @@ load();
   function stop(){
     playing=false;
     if(loopTimer){clearTimeout(loopTimer);loopTimer=null;}
-    if(master)master.gain.value=0;
+    if(songGain){try{songGain.disconnect();}catch(e){}songGain=null;}
   }
   /* Erste Interaktion irgendwo (Tippen, Klick, Taste) schaltet den Ton frei — danach läuft die Musik von allein */
   function unlock(){
