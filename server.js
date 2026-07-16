@@ -3,7 +3,7 @@ const { Pool } = require("pg");
 const app = express();
 app.use(express.json());
 const pool = new Pool({ connectionString: process.env.DATABASE_URL, ssl: process.env.DATABASE_URL ? { rejectUnauthorized: false } : false });
-const PAGE_URL = "https://d2ol7oe51mr4n9.cloudfront.net/user_39D0KSypCuHJsfWF7pCt6O8TFgd/d1fd7887-0101-4362-b9e3-782ecf62f0b6.txt";
+const PAGE_URL = "https://d2ol7oe51mr4n9.cloudfront.net/user_39D0KSypCuHJsfWF7pCt6O8TFgd/175f53ea-1377-4ff6-ae3f-80d59c4338dc.txt";
 const IMG_URL = "https://d8j0ntlcm91z4.cloudfront.net/user_39D0KSypCuHJsfWF7pCt6O8TFgd/hf_20260715_202804_8f0ad4e4-54fb-4b1c-909d-e160850eb205.png";
 let cache = null;
 async function page() { if (!cache) cache = await fetch(PAGE_URL).then(r => r.text()); return cache; }
@@ -15,7 +15,7 @@ app.get("/api/entries", async (_q, res) => {
 app.post("/api/entries", async (q, res) => {
   try {
     const name = String(q.body.name || "").trim().slice(0, 60);
-    const msg = String(q.body.msg || "").trim().slice(0, 600);
+    const msg = String(q.body.msg || "").trim().slice(0, 8000);
     if (!name || !msg) return res.status(400).json({ error: "missing" });
     await pool.query("INSERT INTO entries (name, msg) VALUES ($1, $2)", [name, msg]);
     const r = await pool.query("SELECT id, name, msg FROM entries ORDER BY id DESC LIMIT 500");
