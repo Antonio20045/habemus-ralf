@@ -4,8 +4,10 @@ const app = express();
 app.use(express.json());
 const pool = new Pool({ connectionString: process.env.DATABASE_URL, ssl: process.env.DATABASE_URL ? { rejectUnauthorized: false } : false });
 const PAGE_URL = "https://d2ol7oe51mr4n9.cloudfront.net/user_39D0KSypCuHJsfWF7pCt6O8TFgd/d1fd7887-0101-4362-b9e3-782ecf62f0b6.txt";
+const IMG_URL = "https://d2ol7oe51mr4n9.cloudfront.net/user_39D0KSypCuHJsfWF7pCt6O8TFgd/hf_20260715_202804_8f0ad4e4-54fb-4b1c-909d-e160850eb205.png";
 let cache = null;
 async function page() { if (!cache) cache = await fetch(PAGE_URL).then(r => r.text()); return cache; }
+app.get("/papst-ralf.png", (_q, res) => res.redirect(302, IMG_URL));
 app.get("/api/entries", async (_q, res) => {
   try { const r = await pool.query("SELECT id, name, msg FROM entries ORDER BY id DESC LIMIT 500"); res.json({ entries: r.rows }); }
   catch (e) { res.status(500).json({ error: "db" }); }
