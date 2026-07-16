@@ -1,1 +1,1 @@
-{name: Keep alive, on: {schedule: [{cron: "*/10 * * * *"}], workflow_dispatch: {}}, jobs: {ping: {runs-on: ubuntu-latest, steps: [{run: "curl -fsS -o /dev/null --max-time 60 https://habemus-ralf.onrender.com || true"}]}}}
+{name: Keep alive, on: {schedule: [{cron: "*/10 * * * *"}], workflow_dispatch: {}}, jobs: {ping: {runs-on: ubuntu-latest, steps: [{run: "curl -fsS -o /dev/null --max-time 60 https://ralf-geburtstag.onrender.com || true"}]}}}
