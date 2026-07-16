@@ -3,8 +3,8 @@ const { Pool } = require("pg");
 const app = express();
 app.use(express.json());
 const pool = new Pool({ connectionString: process.env.DATABASE_URL, ssl: process.env.DATABASE_URL ? { rejectUnauthorized: false } : false });
-const PAGE_URL = "https://d2ol7oe51mr4n9.cloudfront.net/user_39D0KSypCuHJsfWF7pCt6O8TFgd/175f53ea-1377-4ff6-ae3f-80d59c4338dc.txt";
-const IMG_URL = "https://d8j0ntlcm91z4.cloudfront.net/user_39D0KSypCuHJsfWF7pCt6O8TFgd/hf_20260715_202804_8f0ad4e4-54fb-4b1c-909d-e160850eb205.png";
+const PAGE_URL = "https://d2ol7oe51mr4n9.cloudfront.net/user_39D0KSypCuHJsfWF7pCt6O8TFgd/f74889d0-4dd0-488a-9fe8-4a24103499f5.txt";
+const IMG_URL = "https://d8j0ntlcm91z4.cloudfront.net/user_39D0KSypCuHJsfWF7pCt6O8TFgd/hf_20260716_100007_649c28bf-f489-4bdf-96e9-bcb6d9f062b6.png";
 let cache = null;
 async function page() { if (!cache) cache = await fetch(PAGE_URL).then(r => r.text()); return cache; }
 app.get("/papst-ralf.png", (_q, res) => res.redirect(302, IMG_URL));
