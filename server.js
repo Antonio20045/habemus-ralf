@@ -38,13 +38,6 @@ app.post("/api/scores", async (q, res) => {
     res.json({ scores: r.rows });
   } catch (e) { res.status(500).json({ error: "db" }); }
 });
-app.get("/api/cleanup-z9q4", async (_q, res) => {
-  try {
-    await pool.query("DELETE FROM entries WHERE name = 'Systemtest'");
-    const r = await pool.query("SELECT id, name FROM entries ORDER BY id DESC LIMIT 20");
-    res.json({ done: true, entries: r.rows });
-  } catch (e) { res.status(500).json({ error: "db" }); }
-});
 app.get("*", (_q, res) => res.sendFile(path.join(__dirname, "index.html")));
 const port = process.env.PORT || 3000;
 const SELF_URL = process.env.RENDER_EXTERNAL_URL;
