@@ -7,11 +7,15 @@ app.use((req, res, next) => {
   next();
 });
 app.use(express.json());
+app.use((req, res, next) => {
+  if (req.path.startsWith("/api")) res.on("finish", () => console.log(new Date().toISOString(), req.method, req.path, res.statusCode));
+  next();
+});
 const pool = new Pool({ connectionString: process.env.DATABASE_URL, ssl: process.env.DATABASE_URL ? { rejectUnauthorized: false } : false });
 const IMG_URL = "https://d8j0ntlcm91z4.cloudfront.net/user_39D0KSypCuHJsfWF7pCt6O8TFgd/hf_20260716_100007_649c28bf-f489-4bdf-96e9-bcb6d9f062b6.png";
 app.get("/papst-ralf.png", (_q, res) => res.redirect(302, IMG_URL));
 app.get("/api/entries", async (_q, res) => {
-  try { const r = await pool.query("SELECT id, name, msg FROM entries ORDER BY id DESC LIMIT 500"); res.json({ entries: r.rows }); }
+  try { const r = await pool.query("SELECT id, name, msg, created_at FROM entries ORDER BY id DESC LIMIT 500"); res.json({ entries: r.rows }); }
   catch (e) { res.status(500).json({ error: "db" }); }
 });
 app.post("/api/entries", async (q, res) => {
