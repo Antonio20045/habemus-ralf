@@ -405,72 +405,94 @@ document.getElementById('f').addEventListener('submit',async function(ev){
 });
 load();
 
-/* ---------- Happy-Birthday-Melodie beim Scrollen ---------- */
+/* ---------- Happy-Birthday-Hintergrundmusik (Dauerschleife) ---------- */
 (function(){
   var btn=document.createElement('button');
-  btn.className='musicbtn';btn.type='button';btn.setAttribute('aria-label','Geburtstagsmelodie beim Scrollen an/aus');btn.title='Geburtstagsmelodie beim Scrollen an/aus';btn.textContent='🎵';
+  btn.className='musicbtn';btn.type='button';btn.setAttribute('aria-label','Geburtstagsmusik an/aus');btn.title='Geburtstagsmusik an/aus';btn.textContent='🎵';
   document.body.appendChild(btn);
-  var ac=null,on=true,idx=0,lastNote=0,lastY=0,unlocked=false;
+  var ac=null,master=null,on=true,unlocked=false,playing=false,loopTimer=null;
   btn.classList.add('on');
-  /* Happy Birthday in F-Dur, [Frequenz, Dauer in Schlägen] */
+  var BEAT=0.5;
+  /* Happy Birthday, [Frequenz, Dauer in Schlägen] */
   var N=[[262,.75],[262,.25],[294,1],[262,1],[349,1],[330,2],
          [262,.75],[262,.25],[294,1],[262,1],[392,1],[349,2],
          [262,.75],[262,.25],[523,1],[440,1],[349,1],[330,1],[294,2],
          [466,.75],[466,.25],[440,1],[349,1],[392,1],[349,2]];
   function tone(f,d,t){
-    var o=ac.createOscillator(),g=ac.createGain();
-    o.type='triangle';o.frequency.value=f;o.connect(g);g.connect(ac.destination);
-    g.gain.setValueAtTime(0.0001,t);g.gain.exponentialRampToValueAtTime(0.15,t+0.02);g.gain.exponentialRampToValueAtTime(0.0001,t+d*0.32);
-    o.start(t);o.stop(t+d*0.35+0.05);
+    var o=ac.createOscillator(),g=ac.createGain(),len=d*BEAT;
+    o.type='triangle';o.frequency.value=f;o.connect(g);g.connect(master);
+    g.gain.setValueAtTime(0.0001,t);
+    g.gain.exponentialRampToValueAtTime(0.11,t+0.03);
+    g.gain.setValueAtTime(0.11,t+Math.max(0.03,len*0.7));
+    g.gain.exponentialRampToValueAtTime(0.0001,t+len*1.05);
+    o.start(t);o.stop(t+len*1.1+0.05);
+  }
+  function bass(f,d,t){
+    var o=ac.createOscillator(),g=ac.createGain(),len=d*BEAT;
+    o.type='sine';o.frequency.value=f/2;o.connect(g);g.connect(master);
+    g.gain.setValueAtTime(0.0001,t);
+    g.gain.exponentialRampToValueAtTime(0.05,t+0.04);
+    g.gain.exponentialRampToValueAtTime(0.0001,t+len);
+    o.start(t);o.stop(t+len+0.05);
   }
   function ensureAc(){
     if(!ac){
-      try{ac=new (window.AudioContext||window.webkitAudioContext)();}catch(e){return false;}
-      ac.onstatechange=function(){unlocked=ac.state==='running';};
+      try{
+        ac=new (window.AudioContext||window.webkitAudioContext)();
+        master=ac.createGain();master.gain.value=1;master.connect(ac.destination);
+        ac.onstatechange=function(){
+          unlocked=ac.state==='running';
+          if(unlocked&&on&&!playing)start();
+        };
+      }catch(e){return false;}
     }
     if(ac.state==='suspended'&&ac.resume)ac.resume();
     unlocked=ac.state==='running';
     return unlocked;
   }
-  /* Erste Interaktion irgendwo (Tippen, Klick, Taste) schaltet den Ton frei */
+  function playSong(){
+    if(!on||!ac||ac.state!=='running'){playing=false;return;}
+    var t=ac.currentTime+0.08;
+    for(var i=0;i<N.length;i++){
+      tone(N[i][0],N[i][1],t);
+      if(i%6===0)bass(N[i][0],2,t);
+      t+=N[i][1]*BEAT;
+    }
+    var wait=(t-ac.currentTime+2.2)*1000;
+    loopTimer=setTimeout(playSong,wait);
+  }
+  function start(){
+    if(playing)return;
+    playing=true;
+    if(loopTimer)clearTimeout(loopTimer);
+    playSong();
+  }
+  function stop(){
+    playing=false;
+    if(loopTimer){clearTimeout(loopTimer);loopTimer=null;}
+    if(master)master.gain.value=0;
+  }
+  /* Erste Interaktion irgendwo (Tippen, Klick, Taste) schaltet den Ton frei — danach läuft die Musik von allein */
   function unlock(){
     if(!on||unlocked)return;
-    if(ensureAc()){
-      setTimeout(function(){
-        if(!unlocked||!on)return;
-        if(idx===0&&ac.state==='running'){
-          var t=ac.currentTime+0.05;
-          tone(N[0][0],N[0][1],t);tone(N[1][0],N[1][1],t+0.3);
-          idx=2;lastNote=t+0.3;
-        }
-      },80);
-    }
+    ensureAc();
+    setTimeout(function(){if(unlocked&&on&&!playing)start();},100);
   }
   ['pointerdown','touchend','keydown','click'].forEach(function(ev){addEventListener(ev,unlock,{passive:true})});
   ensureAc();
+  if(unlocked&&on)start();
   btn.addEventListener('click',function(e){
     e.stopPropagation();
     on=!on;btn.classList.toggle('on',on);
     btn.textContent=on?'🎵':'🔇';
-    if(on){ensureAc();idx=0;lastY=scrollY;}
-  });
-  addEventListener('scroll',function(){
-    if(!on)return;
-    if(!unlocked){ensureAc();if(!unlocked)return;}
-    var y=scrollY,h=document.documentElement.scrollHeight-innerHeight;
-    if(h<=0)return;
-    if(y<40&&idx>=N.length){idx=0;lastY=y;return;}
-    if(y<=lastY){lastY=y;return;}
-    lastY=y;
-    if(idx>=N.length)return;
-    var target=Math.floor(y/h*(N.length+2)),now=ac.currentTime;
-    while(idx<=target&&idx<N.length){
-      var when=Math.max(now,lastNote+0.17);
-      tone(N[idx][0],N[idx][1],when);
-      lastNote=when;idx++;
-      if(lastNote>now+1.3)break;
+    if(on){
+      if(master)master.gain.value=1;
+      ensureAc();
+      setTimeout(function(){if(unlocked&&!playing)start();},100);
+    }else{
+      stop();
     }
-  },{passive:true});
+  });
 })();
 
 /* ---------- Fanfare (WebAudio, keine Assets) ---------- */
